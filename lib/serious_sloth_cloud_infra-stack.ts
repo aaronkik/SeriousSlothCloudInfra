@@ -21,6 +21,9 @@ export class SeriousSlothCloudInfraStack extends Stack {
       'get-twitch-streams',
       {
         architecture: lambda.Architecture.ARM_64,
+        bundling: {
+          minify: true,
+        },
         description:
           'Fetches streams from the GET /streams Twitch API and inserts data to a postgres instance',
         entry: 'lambda/get-streams/index.ts',
