@@ -1,16 +1,34 @@
-import * as cdk from 'aws-cdk-lib';
+import {
+  aws_lambda as lambda,
+  aws_lambda_nodejs as lambdaNodejs,
+  Duration,
+  Stack,
+  StackProps,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class SeriousSlothCloudInfraStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class SeriousSlothCloudInfraStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'SeriousSlothCloudInfraQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    /**
+     * @see https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda-readme.html
+     */
+    new lambdaNodejs.NodejsFunction(this, 'get-twitch-streams', {
+      architecture: lambda.Architecture.ARM_64,
+      description:
+        'Fetches streams from the GET /streams Twitch API and inserts data to a postgres instance',
+      entry: 'lambda/get-streams/index.ts',
+      environment: {
+        SUPABASE_SERVICE_SECRET: process.env.SUPABASE_SERVICE_SECRET ?? '',
+        SUPABASE_URL: process.env.SUPABASE_URL ?? '',
+        TWITCH_CLIENT_ID: process.env.TWITCH_CLIENT_ID ?? '',
+        TWITCH_SECRET: process.env.TWITCH_SECRET ?? '',
+      },
+      handler: 'handler',
+      memorySize: 1024,
+      runtime: lambda.Runtime.NODEJS_16_X,
+      timeout: Duration.minutes(2),
+    });
   }
 }

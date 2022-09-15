@@ -15,10 +15,11 @@
     "@types/jest": "^29.0.2",
     "@types/node": "18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
     "aws-cdk": "2.41.0",
+    "esbuild": "^0.15.7",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard-with-typescript": "^23.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
@@ -28,8 +29,11 @@
     "typescript": "^4.8.3"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.0.0-rc.10",
     "aws-cdk-lib": "2.41.0",
     "constructs": "^10.1.102",
+    "dotenv": "^16.0.2",
+    "node-fetch": "^3.2.10",
     "prettier": "^2.7.1",
     "source-map-support": "^0.5.21"
   }
