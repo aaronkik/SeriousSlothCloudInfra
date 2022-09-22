@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS public.stream_history_timestamp (
 
 COMMENT ON TABLE public.stream_history_timestamp IS 'The time streams are fetched from the Twitch API';
 
+CREATE INDEX stream_history_timestamp_time_desc_index ON stream_history_timestamp (time DESC);
+
 CREATE TABLE IF NOT EXISTS public.stream_history (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   stream_id text NOT NULL,
@@ -22,6 +24,8 @@ CREATE TABLE IF NOT EXISTS public.stream_history (
 );
 
 COMMENT ON TABLE public.stream_history IS 'Streams fetched from the Twitch API';
+
+CREATE INDEX stream_history_timestamp_id_index ON stream_history (stream_history_timestamp_id);
 
 ALTER TABLE public.stream_history_timestamp ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.stream_history ENABLE ROW LEVEL SECURITY;
